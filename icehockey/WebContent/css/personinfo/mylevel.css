@@ -8,6 +8,24 @@ body{
 	background-size:10000px 10000px;
 	
 }
+
+.userAlias{
+	position: relative;
+	width:100%;
+	margin-top:4rem;
+	font-size: 1.5rem;
+	border-top: hidden;
+	border-bottom: hidden;
+	border-style:none;
+	min-height: 2.5rem; /*最小高度*/
+    border-radius: 2rem !important;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+	filter:alpha(Opacity=80);
+	-moz-opacity:0.5;
+	opacity: 0.4;
+}
 .p1{
 	font-size:18px;
 	color:white;

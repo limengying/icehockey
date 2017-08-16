@@ -3,19 +3,8 @@
     margin:0;
     padding:0;
 }
-html,body,body > form{
-    height: 100%;
-}
-body{
-    font:22px/1.5 STHeiTi,\9ED1\4F53,helvetica Regular,Heiti SC;
-    color:#666;
-}
-a{
-    text-decoration: none;
-}
-a,input,li,span,div{
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-}
+
+
 input:focus{
     outline: none;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
@@ -23,10 +12,7 @@ input:focus{
 input{
     -webkit-appearance: none;
 }
-.hover {
-    /*  background-color: #ccc !important;
-      -webkit-transition: all 0.1s !important;  */
-}
+
 img.auto{
     max-width: 100%;
 }
@@ -64,9 +50,7 @@ ul li{
 
     position: relative;
 }
-.page .page-main1{
-    padding:20px 0 80px;
-}
+
 .page .page-bot{
     position: absolute;
     width:100%;
@@ -84,21 +68,22 @@ ul li{
     display: none;
 }
 .row .label{
+	text-align: center;
     display: block;
     font-size: 20px;
-    color:#666;
-    padding-bottom:8px;
+    color:#E8E8E8;
+    margin-bottom: -0.2rem;
 }
+
 .row .label .tips{
     font-size:12px;
     color:#999;
     display: block;
 }
 .ruler{
-    height: 70px;
-    overflow: hidden;
+    height: 55px;
+    
     position: relative;
-    width:290px;
 }
 .ruler:before,.ruler:after{
     content: "";
@@ -107,12 +92,13 @@ ul li{
     height: 60px;
     width:22%;
     z-index: 3;
+    color: ;
     pointer-events:none;
 }
 
 .ruler:after{
     right:0;
- }
+}
 .ruler .main1{
     width:3000px;
     position: relative;
@@ -134,7 +120,7 @@ ul li{
     float: left;
     width:104px;
     height: 60px;
-    background: url( ../images/ruler_height.png) left top no-repeat;
+       background: url( ../images/ruler_height.png) left top no-repeat;
     background-size: 94px;
     padding-top:30px;
     text-align: right;
@@ -169,7 +155,7 @@ ul li{
     border-top-color:#57c0ff;
 }
 .ruler-weight li{
-        background: url(../../images/bxy/ruler_weight.png) left top no-repeat;
+    background: url(../../images/bxy/ruler_weight.png) left top no-repeat;
     background-size: 100px auto;
     color:#b5d0e1;
 }

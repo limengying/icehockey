@@ -8,7 +8,8 @@
 		<title>身高选择页面</title>
 		<link rel="stylesheet" href="../../css/bxy/height.css">
 		<link rel="stylesheet" href="../../css/bxy/main.css">
-		
+		<link rel="stylesheet" href="../../css/bxy/style.css">
+		<script src="../../js/bxy/rule.js"></script>
 		<link rel="stylesheet" href="../../css/jqueryMobile/jquery.mobile-1.4.5.min.css"/>
 		<script src="../../js/jQuery/jquery-2.2.3.min.js"></script>
 		<script src="../../js/jqueryMobile/jquery.mobile-1.4.5.min.js"></script>
@@ -23,7 +24,7 @@
 				</p>
 			</div>
 			<div class="weight_image" align="center" >
-				<img src="../../images/bxy/lady.png" />
+				<img src="../../images/bxy/manAll.png" />
 			</div>
 <!--
 			<div class="ui-grid-a">
@@ -52,13 +53,40 @@
 	  				下一步
 	  			</a>
 	  		</div>	-->
-	  		<div data-role="fieldcontain">   	    	
-        			<input type="range" name="points" id="points" value="170" min="120" max="200" >
-	      		</div>
-	      		
-	      		<div class="height">
-	      			<span>CM</span>
-	      		</div>
+	  		<br/>
+				<br/>
+				
+				<div class="page" data-page='profile1'>
+				    <div class="page-main">
+				        <input type="hidden" name="first_screen"  id="number" value="30##150##50">
+				        <div class="row">
+				            <div class="ruler ruler-weight">
+				                <div class="main1" value="0">
+				                    <ul data-initial='true'>
+				                        <li><span class="num">30</span></li>
+				                        <li><span class="num">35</span></li>
+				                        <li><span class="num">40</span></li>
+				                        <li><span class="num">45</span></li>
+				                        <li><span class="num">50</span></li>
+				                        <li><span class="num">55</span></li>
+				                        <li><span class="num">60</span></li>
+				                        <li><span class="num">65</span></li>
+				                        <li><span class="num">70</span></li>
+				                        <li><span class="num">75</span></li>
+				                        <li><span class="num">80</span></li>
+				                        <li><span class="num">85</span></li>
+				                        <li><span class="num">90</span></li>
+				                        <li><span class="num">95</span></li>
+				                        <li><span class="num">100</span></li>
+				                    </ul>
+				                </div>
+				            </div>
+				            <label for="" class="label"><span class="number width-num" initial-value="8" value="50">50</span></label>
+				            <label for="" class="label label2"><span class="letter">kg</span></label>
+				        </div>
+				    </div>
+				</div>
+				
 				<div data-role="controlgroup" data-type="horizontal" class="btn">
 					<a href="#" onClick="javascript :history.back(-1);"  data-ajax="false" data-role="button" data-corners="true" data-transition="slide" class="back">
 						<span>上一步</span>
@@ -67,7 +95,7 @@
 	  					<span>下一步</span>
 	  				</a>
 	  			</div>
-	  		</div>
+	  	</div>
 
 		
 	</body>

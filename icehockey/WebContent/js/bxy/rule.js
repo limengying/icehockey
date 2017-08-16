@@ -1,6 +1,3 @@
-/*
- * 这个js脚本文件可以忽略，与后端无关。
- */
 setTimeout(function(){
 
     var n =0;
@@ -13,12 +10,12 @@ setTimeout(function(){
 
     var w2=52;
 
-    var heightVal =$("div[data-role="content"]").find(".row").eq(1).find(".number").attr("initial-value"); //150-140
+    var heightVal =$("div[data-page='profile1']").find(".row").eq(1).find(".number").attr("initial-value"); //150-140
 
-    var widthVal =$("div[data-role="content"]").find(".row").eq(2).find(".number").attr("initial-value"); //550-300 /2.5 /10 保留最后一们小数
+    var widthVal =$("div[data-page='profile1']").find(".row").eq(2).find(".number").attr("initial-value"); //550-300 /2.5 /10 �������һ��С��
 
-    var ageVal = $("div[data-role="content"]").find(".row").eq(0).find(".number").attr("initial-value"); //30-18
-    
+    var ageVal = $("div[data-page='profile1']").find(".row").eq(0).find(".number").attr("initial-value"); //30-18
+    var  mouVal=$("div[data-page='profil']")
 
 
 
@@ -94,17 +91,17 @@ setTimeout(function(){
         X = moveX - startX;
 
         if(X>0){
-            var vv = $(this).parent(".main").attr('value');
+            var vv = $(this).parent(".main1").attr('value');
 
             if(vv >=start){
 
                 start = X>start ? start : X;
 
-                $(this).parent(".main").css({
+                $(this).parent(".main1").css({
                     '-webkit-transform':'translateX('+start+'px)'
                 }).attr('value',start);
             }else{
-                $(this).parent(".main").css({
+                $(this).parent(".main1").css({
                     '-webkit-transform':'translateX('+X+'px)'
                 }).attr('value',X);
             }
@@ -123,15 +120,15 @@ setTimeout(function(){
 
         }else{
 
-            var vv = $(this).parent(".main").attr('value');
+            var vv = $(this).parent(".main1").attr('value');
 
-            if($(this).parent(".main").attr('value') <=end){
+            if($(this).parent(".main1").attr('value') <=end){
                 end = X< end ? end : X;
-                $(this).parent(".main").css({
+                $(this).parent(".main1").css({
                     '-webkit-transform':'translateX('+end+'px)'
                 }).attr('value',end);
             }else{
-                $(this).parent(".main").css({
+                $(this).parent(".main1").css({
                     '-webkit-transform':'translateX('+X+'px)'
                 }).attr('value',X);
             }
@@ -169,7 +166,7 @@ setTimeout(function(){
 
         if($(this).closest('.ruler').hasClass("ruler-age")){
 
-            var value=  Math.abs($(this).parent(".main").attr("value"));
+            var value=  Math.abs($(this).parent(".main1").attr("value"));
 
             var value2 = Math.round(Math.abs(value)/100)*100;
 
@@ -177,7 +174,7 @@ setTimeout(function(){
                 value2+=50;
             }
 
-            $(this).parent(".main").css({
+            $(this).parent(".main1").css({
                 '-webkit-transform':'translateX(-'+value2+'px)'
             }).attr('value','-'+value2);
         }
