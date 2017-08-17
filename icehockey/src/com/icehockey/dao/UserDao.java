@@ -53,8 +53,9 @@ public class UserDao {
 				String handing = rs.getString("handingName");// '持杆方式',
 				String image = rs.getString("image");// '头像',
 
-				user = new User(userId, weChatId, telephone, userName, sex, password, birthday, country, city, height,
-						weight, play, ice_User, snow_play, role, handing, image);
+				user = new User(userId, weChatId, telephone, userName, sex,
+						password, birthday, country, city, height, weight,
+						play, ice_User, snow_play, role, handing, image);
 
 				users.add(user);
 			}
@@ -80,7 +81,6 @@ public class UserDao {
 		}
 		return users;
 	}
-
 
 	public User getUsersByTelephone(String telephoneNumber) {
 		// List<user> users=new ArrayList<user>();
@@ -117,8 +117,9 @@ public class UserDao {
 				String handling = rs.getString("handlingName");// '持杆方式',
 				String image = rs.getString("image");// '头像',
 
-				user = new User(userId, weChatId, telephone, userName, sex, password, birthday, country, city, height,
-						weight, play, ice_User, snow_play, role, handling, image);
+				user = new User(userId, weChatId, telephone, userName, sex,
+						password, birthday, country, city, height, weight,
+						play, ice_User, snow_play, role, handling, image);
 
 				return user;
 			} else {
@@ -180,8 +181,9 @@ public class UserDao {
 				String handling = rs.getString("handlingName");// '持杆方式',
 				String image = rs.getString("image");// '头像',
 
-				user = new User(userId, weChatId, telephone, userName, sex, password, birthday, country, city, height,
-						weight, play, ice_User, snow_play, role, handling, image);
+				user = new User(userId, weChatId, telephone, userName, sex,
+						password, birthday, country, city, height, weight,
+						play, ice_User, snow_play, role, handling, image);
 
 				return user;
 			}
@@ -206,8 +208,9 @@ public class UserDao {
 		return user;
 	}
 
-	public User updateUser(int userId, String playRadioValue, String ice_playRadioValue, String snow_playRadioValue,
-			int roleId, int HandlingId) {
+	public User updateUser(int userId, String playRadioValue,
+			String ice_playRadioValue, String snow_playRadioValue, int roleId,
+			int HandlingId) {
 
 		user = getUserByUserId(userId);
 
@@ -252,7 +255,8 @@ public class UserDao {
 		return user;
 	}
 
-	public User insertUser(String telephoneNumber, String UserName, String UserPassword) {
+	public User insertUser(String telephoneNumber, String UserName,
+			String UserPassword) {
 		// INSERT INTO Persons (LastName, Address) VALUES ('Wilson',
 		// 'Champs-Elysees')
 
@@ -296,7 +300,8 @@ public class UserDao {
 		return null;
 	}
 
-	public User updateUserByUserId(int userId, int sex, double height, double weight, String country, String city,
+	public User updateUserByUserId(int userId, int sex, double height,
+			double weight, String country, String city,
 			String xianxiaolijvlebu, String xianxiaoliqiudui) {
 
 		user = getUserByUserId(userId);
@@ -348,8 +353,8 @@ public class UserDao {
 		return user;
 	}
 
-	public User updateUserByUserId(int userId, String UserName, double height, double weight, String country,
-			String city) {
+	public User updateUserByUserId(int userId, String UserName, double height,
+			double weight, String country, String city) {
 		user = getUserByUserId(userId);
 		System.out.println(user);
 
@@ -395,7 +400,8 @@ public class UserDao {
 		return user;
 	}
 
-	public User updateUserByUserId(int userId, int sex, double height, double weight, String country, String city) {
+	public User updateUserByUserId(int userId, int sex, double height,
+			double weight, String country, String city) {
 		user = getUserByUserId(userId);
 		System.out.println(user);
 
@@ -642,7 +648,8 @@ public class UserDao {
 		return user;
 	}
 
-	public User updateUserSnow(int userId, String playValue, String snow_playValue) {
+	public User updateUserSnow(int userId, String playValue,
+			String snow_playValue) {
 		user = getUserByUserId(userId);
 
 		System.out.println(user);
@@ -813,7 +820,8 @@ public class UserDao {
 		return user;
 	}
 
-	public User updateUserNameAndImageByUserId(int userId, String userName, String imageUrl) {
+	public User updateUserNameAndImageByUserId(int userId, String userName,
+			String imageUrl) {
 		user = getUserByUserId(userId);
 
 		System.out.println(user);
@@ -852,6 +860,67 @@ public class UserDao {
 
 		}
 		return user;
+	}
+
+	// public User updateUserRole(int userId, int roleId)
+	public User fn(int userId, int roleId) {
+		try {
+			// 获取数据库链接
+			conn = util.openConnection();
+			// 开启事务
+			// 不把其设置为true之前都是一个当作一个事务来处理
+			conn.setAutoCommit(false);
+			// 创造SQL语句
+			String sql1 = "UPDATE user SET user.roleId=" + roleId
+					+ " WHERE user.userId=" + userId + ";";
+			String sql2 = null;
+			if (roleId == 101) {// 教练
+				sql2 = "INSERT INTO coach (userId) VALUES (" + userId + ")";
+			} else if (roleId == 102) {// 裁判
+				sql2 = "INSERT INTO judge (userId) VALUES (" + userId + ")";
+			} else {// (roleId==103)守门员或者球员
+				sql2 = "INSERT INTO player (userId) VALUES (" + userId + ")";
+			}
+			System.out.println("sql1:  "+sql1);
+			System.out.println("sql2:  "+sql2);
+			// 执行SQL语句
+			statement = conn.createStatement();
+			statement.executeUpdate(sql1);
+			statement.executeUpdate(sql2);
+			// 提交事务
+			conn.commit();
+			user = getUserByUserId(userId);
+			System.out.println("OK!" + user);
+			return user;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("有错误！");
+			try {
+				// 回滚事务
+				// 撤销上面对事务的所有操作哈！
+
+				conn.rollback();
+				System.out.println("事物回滚");
+			} catch (Exception e2) {
+				System.out.println("事物回滚失败");
+			}
+		} finally {
+			// 关闭Statement
+			try {
+				System.out.println("statement关闭");
+				statement.close();
+			} catch (Exception e) {
+				System.out.println("statement关闭失败");
+			}
+			// 关闭Connection
+			try {
+				System.out.println("conn关闭");
+				conn.close();
+			} catch (Exception e) {
+				System.out.println("conn关闭失败");
+			}
+		}
+		return null;
 	}
 
 }
