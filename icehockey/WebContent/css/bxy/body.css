@@ -21,13 +21,16 @@
 }
 
 .item{
+	display: block;
 	font-family:"微软雅黑";
 	margin-top:7%;
 	margin-left: 18%;
+	height: 1.8em;
 }
 
 input{
-	width: 65%;
+	display: inline;
+	width: 50%;
 	height: 1rem;
 	color: #FF0000;
 	border-style:none;

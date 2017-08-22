@@ -1,13 +1,6 @@
 .weight_image{
 	position:absolutoin;
-	margin-top:15%;
-}
-
-.text p{
-	color: #fff;
-    text-shadow:none !important;
-    font-size: 1.7rem;
-	
+	margin-top:8%;
 }
 
 .weight{
@@ -23,16 +16,16 @@
 .btn{
 	border-radius: 2rem !important;
 	width: 80%;
-	
     min-height: 3em;
+    background: transparent! important;
 
-    
 }
 
 .back{
 	background: transparent! important;
 	 text-shadow:none !important;
-    color: #fff;
+    color: #FFA657;
+    
 }
 
 .back span{
@@ -45,7 +38,7 @@
 .next{
 	background: transparent! important;
 	 text-shadow:none !important;
-	   color: #fff;
+	   color: #FFA657;
 	
 }
 
@@ -53,5 +46,4 @@
 	color: #fff;
 	text-shadow:none !important;
 	margin: 0 2rem;
-	
 }
