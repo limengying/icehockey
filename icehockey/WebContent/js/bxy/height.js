@@ -3,7 +3,7 @@ $(function() {
 		'min-height' : $(window).height()
 	});
 	$('.next').click(function() { // ---> 注意function为小写
-		var height = $("#points").val();// 得到height的值
+		var height = $(".number").text();// 得到height的值
 		// submit('height'); ---> 这样写 是将'height'字符串传入到 submit中
 		submit(height);
 		// alert(JSON.stringify(data)); ---> data 不存在 会报错
@@ -16,7 +16,7 @@ $(function() {
 			height : height,
 			userid : urlUserId
 		};
-		//alert(JSON.stringify(data));
+		alert(JSON.stringify(data));
 
 		// 请求后台保存数据
 		$.post(HEIGHTURL, data, function(result) {

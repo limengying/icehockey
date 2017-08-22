@@ -3,10 +3,10 @@ $(function() {
 		'min-height' : $(window).height()
 	});
 	$('.next').click(function() { // ---> 注意function为小写
-		var weight = $("#points").val();// 得到weight的值
+		var weight = $(".number").text();// 得到weight的值
 		// submit('weight'); ---> 这样写 是将'weight'字符串传入到 submit中
 		submit(weight);
-		// alert(JSON.stringify(data)); ---> data 不存在 会报错
+		//alert(JSON.stringify(data)); //---> data 不存在 会报错
 	});
 
 	var urlUserId = comm.getUrlParameter("userid");// 解析url中的参数获取userid的值
@@ -15,7 +15,7 @@ $(function() {
 			weight : weight,
 			userid : urlUserId,
 		};
-		//alert(JSON.stringify(data));
+		alert(JSON.stringify(data));
 
 		// 请求后台保存数据
 		$.post(WEIGHTURL, data, function(result) {
