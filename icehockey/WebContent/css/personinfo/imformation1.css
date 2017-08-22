@@ -75,7 +75,7 @@ body{
 	background-size:cover;
 	position:absolute;
 	left:60%;
-	top:180px;
+	top:70%;
 	width:30px;
 	height:30px;
 }
@@ -85,7 +85,7 @@ body{
 	background-size:cover;
 	position:absolute;
 	left:70%;
-	top:180px;
+	top:70%;
 	width:30px;
 	height:30px;
 }
@@ -95,7 +95,7 @@ body{
 	background-size:cover;
 	position:absolute;
 	left:80%;
-	top:180px;
+	top:70%;
 	width:30px;
 	height:30px;
 }
@@ -106,7 +106,7 @@ body{
 	position:absolute;
 	left:0px;
 	width:30%;
-	top:215px;
+	top:90%;
 }
 .button_Follow{
 	color:white;
@@ -115,7 +115,7 @@ body{
 	position:absolute;
 	left:30%;
 	width:30%;
-	top:215px;
+	top:90%;
 }
 .button_Fans{
 	color:white;
@@ -123,7 +123,7 @@ body{
 	background:transparent;
 	position:absolute;
 	left:70%;
-	top:215px;
+	top:90%;
 }
 ul{
 	margin: 0px;
@@ -272,7 +272,7 @@ ul{
 	flex: 1;
 }
 
-/*工具箱样式*/
+/*��������ʽ*/
 .div_tool{
 	display: none;
 }
@@ -282,7 +282,7 @@ ul{
 	flex-direction: column;
 	flex: 1;
 }
-/*社区样式*/
+/*������ʽ*/
 .div_club{
 	display: none;
 }
@@ -292,7 +292,7 @@ ul{
 	flex-direction: column;
 	flex: 1;
 }
-/*消息样式*/
+/*��Ϣ��ʽ*/
 .div_info{
 	display: none;
 }
@@ -302,7 +302,7 @@ ul{
 	flex-direction: column;
 	flex: 1;
 }
-/*我的样式*/
+/*�ҵ���ʽ*/
 .div_mine{
 	display: none;
 }
@@ -315,7 +315,7 @@ ul{
 
 
 
-/*底部样式*/
+/*�ײ���ʽ*/
 .main-bottom{
 	position: fixed;
 	top:90%;
@@ -326,6 +326,7 @@ ul{
 	height: 4.3rem;
 	background: rgb(216,215,213);
 	width: 100%;
+	height: 10%;
 }
 .main-bottom div{
 	text-align: center;

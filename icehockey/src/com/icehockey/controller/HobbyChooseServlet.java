@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icehockey.entity.User;
@@ -46,7 +45,7 @@ public class HobbyChooseServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		UserService userService = new UserService();
 		User user = null;
-		String loadTipStr = "";
+/*		String loadTipStr = "";
 		HttpSession session = request.getSession();
 	    int times=1;
 	    if(!session.isNew())
@@ -55,11 +54,12 @@ public class HobbyChooseServlet extends HttpServlet {
 	       {
 	         times=1+Integer.parseInt(session.getAttribute("times").toString());
 	       }
+	     }else{
+	    	 System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	     }
-	    session.setAttribute("times",times);
-	    
+	    session.setAttribute("times",times);    
 	    loadTipStr="欢迎您第"+times+"次访问";
-		System.out.println("aaaaaaaaaaaaaa" + loadTipStr);
+		System.out.println("aaaaaaaaaaaaaa" + loadTipStr);*/
 		Map<String, Object> map = new HashMap<String, Object>();
 		int userId = -1;
 		// 前端获取传入的data

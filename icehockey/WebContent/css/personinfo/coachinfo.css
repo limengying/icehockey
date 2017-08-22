@@ -216,6 +216,8 @@ input{
 	height: 4.3rem;
 	background: rgb(216,215,213);
 	width: 100%;
+		height: 10%;
+
 }
 .main-bottom div{
 	text-align: center;

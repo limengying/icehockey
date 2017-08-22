@@ -1,16 +1,91 @@
+body{
+	
+	background:url(../../images/lock-screen-background.png) center center no-repeat;
+	
+	
+	background-size:10000px 10000px;
+	
+}
+#div_community{
+	/*margin:0px auto;
+	*/
+	margin-top: 70px;
+	
+}
+#div_page2{
+	margin-top:0px;
+}
+.p1{
+	font-size:18px;
+	color:white;
+	position:absolute;
+	left:80px;
+	top:20px;
+}
+.button_back{
+	
+	background:url(../../images/back.png) center center no-repeat;
+	background-size:cover;
+	border:none;
+	width:20px;
+	height:20px;
+	position:absolute;
+	left:40px;
+	top:35px;
+}
 .button_photo{
+	
+	/*margin:0px auto;*/
 	color:white;
 	background-color: transparent;
-	position:fixed;
 	border:none;
+	width:20%;
+	/*position:absolute;
+	
 	left:80px;
-	top:70px;
+	top:70px;*/
 }
 .button_vidoes{
+	
+	/*margin:0px auto;*/
 	color:white;
 	background-color: transparent;
-	position:fixed;
 	border:none;
+	width:20%;
+	/*position:absolute;
+	
 	left:50%;
-	top:70px;
+	top:70px;*/
+}
+.button_upload{
+	
+	color:white;
+	background-color: transparent;
+	border:none;
+	width:20%;
+	/*position:absolute;
+	
+	left:0px;
+	top:100px;*/
+}
+.button_exchange{
+	color:white;
+	background-color: transparent;
+	border:none;
+	width:20%;
+	/*position:absolute;
+	
+	border:none;
+	left:33%;
+	top:100px;*/
+}
+.button_collection{
+	color:white;
+	background-color: transparent;
+	border:none;
+	width:20%;
+	/*position:absolute;
+	border:none;
+	left:66%;
+	top:100px;*/
 }

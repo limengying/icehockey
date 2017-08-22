@@ -161,7 +161,8 @@ public class UserService {
 		System.out.println(role);
 		if (role != null) {
 			System.out.println(role.toString());
-			user = dao.updateUserRole(userId, role.getRoleId());
+			user = dao.fn(userId, role.getRoleId());
+			//user = dao.updateUserRole(userId, role.getRoleValue());
 			System.out.println("第一次登录页面更新成功");
 
 		} else {

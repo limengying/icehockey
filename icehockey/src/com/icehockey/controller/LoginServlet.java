@@ -22,7 +22,7 @@ import com.icehockey.service.UserService;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -45,12 +45,11 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("-----------------login.html----------");
 		String loadTipStr = "";
 		HttpSession session = request.getSession();
+		int times = 0;
 		if (session.isNew()) {
-			// response.sendRedirect("noright.jsp");
 			loadTipStr = "第一次访问";
-		} else {
-			// response.sendRedirect(tempOurl);
-			int times = 0;
+			session.setAttribute("times", times);
+		} else {			
 			if (session.getAttribute("times") != null) {
 				times = 1 + Integer.parseInt(session.getAttribute("times")
 						.toString());
