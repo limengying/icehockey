@@ -16,6 +16,6 @@ $(function(){
     },1500);
     $('.other').on('click',function(){
         $('.container-fluid').fadeOut();
-        this.location=''
+        this.location='login.html';
     });
 });

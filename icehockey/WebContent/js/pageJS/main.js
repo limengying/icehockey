@@ -44,14 +44,12 @@ $(".content_out_div>.right_content_div>.content_div").click(function() {
 });
 
 function mainClick() {
-	var urlUserId = comm.getUrlParameter("userid");
-	window.location.href = "../views/main.html?userid=" + urlUserId;
+	window.location.href = "../views/main.html";
 
 }
 
 function saichengClick() {
-	var urlUserId = comm.getUrlParameter("userid");
-	window.location.href = "../views/saicheng.html?userid=" + urlUserId;
+	window.location.href = "../views/saicheng.html";
 
 }
 
@@ -61,102 +59,30 @@ function gongjuClick() {
 }
 
 function clubClick() {
-	var urlUserId = comm.getUrlParameter("userid");
 	window.location.href = "../views/imformation/mycommunity.html?userid="
 			+ urlUserId;
 }
 
 function infoClick() {
-	var urlUserId = comm.getUrlParameter("userid");
 	window.location.href = "../views/imformation/oscenter.html?userid="
 			+ urlUserId;
 }
 
 function mineClick() {
 
-	var urlUserId = comm.getUrlParameter("userid");// 解析url中的参数获取userid的值
-	var data = {
-		userid : urlUserId,
-
-	};
-	$
-			.post(
-					MYINFOURL,
-					data,
-					function(result) {
-						var jsonReturn = JSON.parse(result);// 处理后台返回的结果
-						if (jsonReturn.result = "0") {
-							//alert(jsonReturn.roleName);
-							if (jsonReturn.roleName == "教练")// 判断角色类别跳转相应页面教练员的跳转
-							{
-								window.location.href = "../views/imformation/coachinfo.html?userid="
-										+ jsonReturn.userid;
-							}
-							if (jsonReturn.roleName == "守门员") {// 守门员的跳转
-								window.location.href = "../views/imformation.html?userid="
-										+ jsonReturn.userid;
-							}
-							if (jsonReturn.roleName == "球员")// 球员的跳转
-							{
-								window.location.href = "../views/imformation/qiuyuan.html?userid="
-										+ jsonReturn.userid;
-
-							}
-							if (jsonReturn.roleName =="裁判") {
-								window.location.href = "../views/imformation/coachinfo.html?userid="
-										+ jsonReturn.userid;// 其他成员
-
-							}
-
-						} else if (jsonReturn == "-1") {// 未接收到返回数据的处理
-							alert("当前没有登录用户");
-						}
-					}, "json");
+	var data = {};
+	var myForm = document.createElement("form");
+	myForm.method = "post";
+	myForm.action = MYINFOURL;
+	myForm.style.display = "none";
+	for ( var k in data) {
+		var myInput = document.createElement("input");
+		myInput.name = k;
+		myInput.value = data[k];
+		myForm.appendChild(myInput);
+	}
+	document.body.appendChild(myForm);
+	myForm.submit();
+	return myForm;
 
 }
-
-// /*主页面点击效果*/
-// function mainClick(){
-// /*清除当前界面的active*/
-// $(".main_top_pages>div").removeClass("active");
-// /*给赛程界面设置活动*/
-// $(".div_schedule").addClass("active");
-// }
-//
-// //
-// /*
-// /*赛程点击效果*/
-// function saichenClick(){
-// /*清除当前界面的active*/
-// $(".main_top_pages>div").removeClass("active");
-// /*给赛程界面设置活动*/
-// $(".div_game").addClass("active");
-// }
-// /*工具箱点击效果*/
-// function gongjuClick(){
-// /*清除当前界面的active*/
-// $(".main_top_pages>div").removeClass("active");
-// /*给赛程界面设置活动*/
-// $(".div_tool").addClass("active");
-// }
-// /*社区点击效果*/
-// function clubClick(){
-// /*清除当前界面的active*/
-// $(".main_top_pages>div").removeClass("active");
-// /*给社区界面设置活动*/
-// $(".div_club").addClass("active");
-// }
-// /*消息点击效果*/
-// function infoClick(){
-// /*清除当前界面的active*/
-// $(".main_top_pages>div").removeClass("active");
-// /*给消息界面设置活动*/
-// $(".div_info").addClass("active");
-// }
-// /*我的点击效果*/
-// function mineClick(){
-// /*清除当前界面的active*/
-// $(".main_top_pages>div").removeClass("active");
-// /*给我的界面设置活动*/
-// $(".div_mine").addClass("active");
-// }

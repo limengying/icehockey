@@ -10,10 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icehockey.entity.User;
-import com.icehockey.service.UserService;
 
 /**
  * Servlet implementation class MyInfoServlet
@@ -27,7 +26,6 @@ public class MyInfoServlet extends HttpServlet {
 	 */
 	public MyInfoServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -37,59 +35,54 @@ public class MyInfoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Access-Control-Allow-Origin", "*");
+		HttpSession session = request.getSession();
 		response.setContentType("application/json");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=UTF-8");
-		System.out.println("---------myInfo.html----------");
+		response.setHeader("set-Cookie", "name=value;HttpOnly");
+		System.out.println("-------------hobbyChoose.html-----------");
 		PrintWriter writer = response.getWriter();
-		UserService userService = new UserService();
 		User user = null;
 		Map<String, Object> map = new HashMap<String, Object>();
-		int userId = -1;
-		String userid = "";
-		// 前端获取传入的data
-		if (request.getParameter("userid") != null) {
-			userid = request.getParameter("userid");
-			// 转化Id
-			userId = Integer.parseInt(userid);
+		System.out.println("跳转后的sessionId :" + session.getId());
+		System.out.println(session.getAttribute("user"));
+		// session
+		if (session.getAttribute("user") == null) {
+			map.put("reslut", "-1");
 		} else {
-			map.put("userid", "null");
+			System.out.println("跳转前的sessionId :" + session.getId());
+			user = (User) session.getAttribute("user");
+			System.out.println("user: " + user);
+			if (user != null) {// 查找成功
+				System.out.println("找到当前用户" + user);
+				// 处理成功返回result=0
+				map.put("result", "0");
+				map.put("user", user);
+				session.setAttribute("user", user);
+				System.out.println("map..." + map);
+			} else {
+				System.out.println("map...空");
+				// 第一次登陆返回result=1
+				map.put("result", "-2");
+			}
+
+		}
+		if ("0".equals(map.get("result"))) {// 登录成功，且不是第一次登陆
+			System.out.println("页面操作正确");
+			if ("教练".equals(user.getRole())||"裁判".equals(user.getRole())) {
+				writer.println("<script>window.location.href='./views/coach/coachinfo.jsp'</script>");
+			}else{
+				writer.println("<script>window.location.href='./views/qiuyuan/qiuyuan.jsp'</script>");
+			} 
+		} else if ("-1".equals(map.get("result"))) {// 登陆失败，用户名不存在
+			writer.println("<script language='javascript'>alert('当前没有登录用户');window.location.href='./views/login.html'</script>");
+
+		} else if ("-2".equals(map.get("result"))) {// 登陆失败，用户名不存在
+			writer.println("<script language='javascript'>alert('没有选择爱好');window.location.href='./views/page/hobbyChoose.html'</script>");
+
 		}
 
-		// 按照userId检索数据库找到user
-		user = userService.queryUserByUserId(userId);
-		if (user != null) {// 插入成功
-			System.out.println("找到当前用户" + user);
-
-			// 处理成功返回result=0
-			map.put("result", "0");
-			map.put("userId", userId);
-			map.put("userid", userid);
-			map.put("sex", user.getSex());
-			map.put("userName", user.getUserName());
-			map.put("height", user.getHeight());
-			map.put("weight", user.getWeight());
-			map.put("roleName", user.getRole());
-			map.put("country", user.getCountry());
-			map.put("city", user.getCity());
-
-			System.out.println("map找到啦..." + map);
-		} else {
-			System.out.println("map未找到...");
-			map.put("result", "-1");
-		}
-		// 将转换得到的map转换为json并返回
-		ObjectMapper objectMapper = new ObjectMapper();
-		String resultJson = objectMapper.writeValueAsString(map);
-		// System.out.println("resultJson ..." + resultJson);
-		resultJson = resultJson.replace("\"", "\\\"");
-		resultJson = "\"" + resultJson + "\"";
-		// 此处返回JSON 字符串 string对象;JSP需要解析才能使用data.key
-		System.out.println("resultJson ..." + resultJson);
-		writer.print(resultJson);
-		writer.flush();
-		writer.close();
 	}
 
 	/**

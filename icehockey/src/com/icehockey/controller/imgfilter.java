@@ -47,7 +47,7 @@ public class imgfilter implements Filter {
 		if (uri.equals(decodeUri)) {
 			chain.doFilter(request, response);
 		} else {
-			decodeUri = decodeUri.substring(hrequest.getServletContext()
+			decodeUri = decodeUri.substring(((FilterConfig) hrequest).getServletContext()
 					.getContextPath().length());
 			System.out.println("decode" + decodeUri);
 			hrequest.getRequestDispatcher(decodeUri).forward(request, response);

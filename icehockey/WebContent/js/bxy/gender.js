@@ -15,30 +15,23 @@ $(function() {
 	});
 
 	// 请求后台服务
-	var urlUserId = comm.getUrlParameter("userid");// 解析url中的参数获取userid的值
-
 	function submit(gender) {
 		var data = {
-			userid : urlUserId,
 			gender : gender
 		};
-		//alert(JSON.stringify(data));
 		// 请求后台保存数据
-		$.post(GENDERURL, data, function(result) {
-			// 处理后台返回的结果
-			var jsonReturn = JSON.parse(result);// 将JSON字符串转换为对象
-			if (jsonReturn.result == "0") {
-				//alert(gender);
-				if (gender == "man") {// 如果选择'man'，跳转man体重面
-					window.location.href = "../bxy/manWeight.html?gender=" + gender
-							+ "&userid=" + jsonReturn.userid;
-				} else if (gender == "lady") {// 如果选择‘lady''，跳转lady体重页面
-					window.location.href = "../bxy/ladyWeight.html?gender="
-							+ gender + "&userid=" + jsonReturn.userid;
-				}
-			} else if (jsonReturn.result == "-1") {
-				alert("当前没有登录用户");
-			}
-		}, "json");
+		var myForm = document.createElement("form");
+		myForm.method = "post";
+		myForm.action = GENDERURL;
+		myForm.style.display = "none";
+		for ( var k in data) {
+			var myInput = document.createElement("input");
+			myInput.name = k;
+			myInput.value = data[k];
+			myForm.appendChild(myInput);
+		}
+		document.body.appendChild(myForm);
+		myForm.submit();
+		return myForm;
 	}
 });

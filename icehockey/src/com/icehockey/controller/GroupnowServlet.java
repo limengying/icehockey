@@ -10,12 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icehockey.entity.Player;
 import com.icehockey.entity.User;
 import com.icehockey.service.PlayerService;
-import com.icehockey.service.UserService;
 
 /**
  * Servlet implementation class GroupnowServlet
@@ -29,7 +28,6 @@ public class GroupnowServlet extends HttpServlet {
      */
     public GroupnowServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -37,57 +35,57 @@ public class GroupnowServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Access-Control-Allow-Origin", "*");
+		HttpSession session = request.getSession();
 		response.setContentType("application/json");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=UTF-8");
-		System.out.println("------------------------groupnow.html--------------------------------------");
+		response.setHeader("set-Cookie", "name=value;HttpOnly");
+		System.out.println("-------------hobbyChoose.html-----------");
 		PrintWriter writer = response.getWriter();
-		UserService userService = new UserService();
 		User user = null;
 		Player player=null;
 		PlayerService playerService=new PlayerService();
-		Map<String, Object> map  = new HashMap<String, Object>();
-		int userId = -1;
-		//前端获取传入的data
-		String userid = null;
-		if (request.getParameter("userid") != null) {
-			userid = request.getParameter("userid");
-			userId = Integer.parseInt(userid);
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println("跳转后的sessionId :" + session.getId());
+		System.out.println(session.getAttribute("user"));
+		// session
+		if (session.getAttribute("user") == null) {
+			map.put("reslut", "-1");
 		} else {
-			map.put("userid", "null");
-		}
-		
-		user = userService.queryUserByUserId(userId);
-		if (user != null) {//插入成功			
-			System.out.println("找到当前用户" + user);
-			player=playerService.queryPlayerByUserId(userId);
-			if(player!=null){
-				map.put("groupName", player.getgroupName());
-			}else{
-				System.out.println("组别查找失败");
+			System.out.println("跳转前的sessionId :" + session.getId());
+			user = (User) session.getAttribute("user");
+			System.out.println("user: " + user);
+			if (user != null) {// 查找成功
+				map.put("user", user);
+				System.out.println("找到当前用户" + user);
+				session.setAttribute("user", user);
+				player=playerService.queryPlayerByUserId(user.getUserId());
+				if(player!=null){
+					map.put("groupName", player.getgroupName());
+					map.put("result", "0");
+					session.setAttribute("groupName", player.getgroupName());
+					System.out.println("map..." + map);
+				}else{
+					System.out.println("组别查找失败");
+					map.put("result", "-2");
+				}
+			} else {
+				System.out.println("map...空");
+				// 第一次登陆返回result=1
+				map.put("result", "-2");
 			}
-			//处理成功返回result=0	
-			map.put("result", "0");
-			map.put("userId", userId);
-			map.put("userid", userId);
-			System.out.println("map找到啦..." + map);
-		} else {
-			System.out.println("map未找到...");
-			//第一次登陆返回result=1
-			map.put("result", "-1");
 		}
-		//将转换得到的map转换为json并返回
-		ObjectMapper objectMapper = new ObjectMapper();
-		String resultJson = objectMapper.writeValueAsString(map);
-		//此处直接返回JSON object对象，JSP可直接使用data.key
-		resultJson = resultJson.replace("\"", "\\\"");
-		resultJson = "\"" + resultJson + "\"";
-		//此处返回JSON 字符串 string对象;JSP需要解析才能使用data.key
-		System.out.println("resultJson ..." + resultJson);
-		writer.print(resultJson);
-		writer.flush();
-		writer.close();
+		//页面跳转
+		if ("0".equals(map.get("result"))) {// 正确操作
+			writer.println("<script language='javascript'>window.location.href='./views/imformation/groupnow.jsp'</script>");
+		} else if ("-1".equals(map.get("result"))) {// 当前没有登录用户
+			writer.println("<script language='javascript'>alert('当前没有登录用户');window.location.href='./views/login.html'</script>");
+
+		} else if ("-2".equals(map.get("result"))) {// 操作失败
+			writer.println("<script language='javascript'>alert('操作失败');window.location.href='./views/error.html'</script>");
+
+		}
 	}
 
 	/**

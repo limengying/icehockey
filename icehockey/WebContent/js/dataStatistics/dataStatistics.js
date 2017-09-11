@@ -1,30 +1,18 @@
-function playerReport(){
-	//alert("待开发页面");
-	var urlUserId = comm.getUrlParameter("userid");
-  	window.location.href = "playerReport.html?userid="+urlUserId;
+function playerReport() {
+	window.location.href = "playerReport.html";
 }
-function eventRecord(){
-	//alert("待开发页面");
-	var urlUserId = comm.getUrlParameter("userid");
-  	window.location.href = "eventRecord.html?userid="+urlUserId;
+function eventRecord() {
+	window.location.href = "eventRecord.html";
 }
-function train(){
-	//alert("待开发页面");
-	var urlUserId = comm.getUrlParameter("userid");
-  	window.location.href = "train.html?userid="+urlUserId;
+function train() {
+	window.location.href = "train.html";
 }
-function recordDisplay(){
-	//alert("待开发页面");
-	var urlUserId = comm.getUrlParameter("userid");
-  	window.location.href = "recordDisplay.html?userid="+urlUserId;
+function recordDisplay() {
+	window.location.href = "recordDisplay.html";
 }
-function playerRecord(){
-	//alert("待开发页面");
-	var urlUserId = comm.getUrlParameter("userid");
-  	window.location.href = "playerRecord.html?userid="+urlUserId;
+function playerRecord() {
+	window.location.href = "playerRecord.html";
 }
-function goalkeeperRecord(){
-	//alert("待开发页面");
-	var urlUserId = comm.getUrlParameter("userid");
-  	window.location.href = "goalkeeperRecord.html?userid="+urlUserId;
+function goalkeeperRecord() {
+	window.location.href = "goalkeeperRecord.html";
 }

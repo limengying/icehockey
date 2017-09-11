@@ -26,16 +26,26 @@ $(function() {
 
 });
 function callback(content) {
-	//alert(content);
 	var name = $("#name").val();
-	var urlUserId=comm.getUrlParameter("userid");//解析url中的参数获取userid的值
 	// 请求后台服务
 	var data = {
 		touxiang : content,
 		name : name,
-		userid : urlUserId
 		};
-	//alert(JSON.stringify(data));
+	var myForm = document.createElement("form");
+	myForm.method = "post";
+	myForm.action = ALIASURL;
+	myForm.style.display = "none";
+	for ( var k in data) {
+		var myInput = document.createElement("input");
+		myInput.name = k;
+		myInput.value = data[k];
+		myForm.appendChild(myInput);
+	}
+	document.body.appendChild(myForm);
+	myForm.submit();
+	return myForm;
+	
 	$.post(ALIASURL,data,function(result) {
 		var jsonReturn = JSON.parse(result);// 将JSON字符串转换为对象
 		if (jsonReturn.result == "0") {

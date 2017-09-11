@@ -10,10 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icehockey.entity.User;
-import com.icehockey.service.UserService;
 
 /**
  * Servlet implementation class HobbyChooseServlet
@@ -37,72 +36,65 @@ public class HobbyChooseServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Access-Control-Allow-Origin", "*");
+		HttpSession session = request.getSession();
 		response.setContentType("application/json");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=UTF-8");
+		response.setHeader("set-Cookie", "name=value;HttpOnly");
 		System.out.println("-------------hobbyChoose.html-----------");
 		PrintWriter writer = response.getWriter();
-		UserService userService = new UserService();
 		User user = null;
-/*		String loadTipStr = "";
-		HttpSession session = request.getSession();
-	    int times=1;
-	    if(!session.isNew())
-	    {
-	       if(session.getAttribute("times")!=null)
-	       {
-	         times=1+Integer.parseInt(session.getAttribute("times").toString());
-	       }
-	     }else{
-	    	 System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-	     }
-	    session.setAttribute("times",times);    
-	    loadTipStr="欢迎您第"+times+"次访问";
-		System.out.println("aaaaaaaaaaaaaa" + loadTipStr);*/
 		Map<String, Object> map = new HashMap<String, Object>();
-		int userId = -1;
-		// 前端获取传入的data
-		String userid = null;
-		if (request.getParameter("userid") != null) {
-			userid = request.getParameter("userid");
-			userId = Integer.parseInt(userid);
+		System.out.println("跳转后的sessionId :" + session.getId());
+		// session
+		if (session.getAttribute("user") == null) {
+			map.put("reslut", "-1");
 		} else {
-			map.put("userid", "null");
+			System.out.println("跳转前的sessionId :" + session.getId());
+			user = (User) session.getAttribute("user");
+			System.out.println("user: " + user);
+			String play = null;// 传输的数据
+			if (request.getParameter("play") != null) {
+				play = request.getParameter("play");
+			} else {
+				map.put("reslut", "-2");// 当前页面操作有误
+			}
+			if (user != null) {// 查找成功
+				System.out.println("找到当前用户" + user);
+				// 处理成功返回result=0
+				map.put("result", "0");
+				map.put("play", play);
+				session.setAttribute("play", play);
+				session.setAttribute("user", user);
+				System.out.println("map..." + map);
+			} else {
+				System.out.println("map...空");
+				// 第一次登陆返回result=1
+				map.put("result", "-2");
+			}
+
+		}
+		if ("0".equals(map.get("result"))) {// 登录成功，且不是第一次登陆
+			System.out.println("页面操作正确");
+			if ("ICE".equals(map.get("play"))) {
+				System.out.println("选择玩冰");
+				writer.println("<script>window.location.href='./views/page/hobbySelectIce.html'</script>");
+			} else if ("SNOW".equals(map.get("play"))) {
+				System.out.println("选择玩雪");
+				writer.println("<script>window.location.href='./views/page/hobbySelectSnow.html'</script>");
+			} else if ("ICESNOW".equals(map.get("play"))) {
+				System.out.println("冰雪都玩");
+				writer.println("<script>window.location.href='./views/page/hobbySelectIce.html'</script>");
+			}
+		} else if ("-1".equals(map.get("result"))) {// 登陆失败，用户名不存在
+			writer.println("<script language='javascript'>alert('当前没有登录用户');window.location.href='./views/login.html'</script>");
+
+		} else if ("-2".equals(map.get("result"))) {// 登陆失败，用户名不存在
+			writer.println("<script language='javascript'>alert('没有选择爱好');window.location.href='./views/page/hobbyChoose.html'</script>");
+
 		}
 
-		String play = null;
-		if (request.getParameter("play") != null) {
-			play = request.getParameter("play");
-		} else {
-			map.put("play", "null");
-		}
-
-		user = userService.queryUserByUserId(userId);
-		if (user != null) {// 插入成功
-			System.out.println("找到当前用户" + user);
-			// 处理成功返回result=0
-			map.put("result", "0");
-			map.put("userId", userId);
-			map.put("userid", userId);
-			map.put("play", play);
-			System.out.println("map找到啦..." + map);
-		} else {
-			System.out.println("map未找到...");
-			// 第一次登陆返回result=1
-			map.put("result", "-1");
-		}
-		// 将转换得到的map转换为json并返回
-		ObjectMapper objectMapper = new ObjectMapper();
-		String resultJson = objectMapper.writeValueAsString(map);
-		// 此处直接返回JSON object对象，JSP可直接使用data.key
-		resultJson = resultJson.replace("\"", "\\\"");
-		resultJson = "\"" + resultJson + "\"";
-		// 此处返回JSON 字符串 string对象;JSP需要解析才能使用data.key
-		System.out.println("resultJson ..." + resultJson);
-		writer.print(resultJson);
-		writer.flush();
-		writer.close();
 	}
 
 	/**

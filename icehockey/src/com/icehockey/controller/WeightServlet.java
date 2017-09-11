@@ -10,8 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icehockey.entity.User;
 import com.icehockey.service.UserService;
 
@@ -37,68 +37,70 @@ public class WeightServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setHeader("Access-Control-Allow-Origin", "*");
+		HttpSession session = request.getSession();
 		response.setContentType("application/json");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=UTF-8");
-		System.out.println("---------weight.html-------");
+		response.setHeader("set-Cookie", "name=value;HttpOnly");
+		System.out.println("-------------HobbySelectIce.html-----------");
 		PrintWriter writer = response.getWriter();
-		UserService userService = new UserService();
 		User user = null;
 		Map<String, Object> map = new HashMap<String, Object>();
-		int userId = -1;
-		double weight = -1;
-		// 前端获取传入的data
-		String userid = "";
-		if (request.getParameter("userid") != null) {
-			userid = request.getParameter("userid");
-			// 转化Id
-			userId = Integer.parseInt(userid);
+		UserService userService = new UserService();
+		System.out.println("跳转后的sessionId :" + session.getId());
+		// session
+		if (session.getAttribute("user") == null) {
+			map.put("reslut", "-1");
 		} else {
-			map.put("userid", "null");
-		}
-
-		// 前端获取传入的data
-		String weightValue = "";
-		if (request.getParameter("weight") != null) {
-			weightValue = request.getParameter("weight");
-			// 转化weight
-			weight = Double.parseDouble(weightValue);
-		} else {
-			map.put("weight", "null");
-		}
-
-		// 按照userId检索数据库找到user
-		user = userService.queryUserByUserId(userId);
-		if (user != null) {// 插入成功
-			System.out.println("找到当前用户" + user);
-			user = userService.updateUserWeight(userId, weight);
-			if (user != null) {
+			System.out.println("跳转前的sessionId :" + session.getId());
+			user = (User) session.getAttribute("user");
+			System.out.println("user: " + user);
+			
+			// 前端获取传入的data
+			String weightValue = "";
+			double weight = -1;
+			if (request.getParameter("weight") != null) {
+				weightValue = request.getParameter("weight");
+				// 转化weight
+				weight = Double.parseDouble(weightValue);
+			} else {
+				map.put("reslut", "-2");
+			}
+			
+			System.out.println("找到当前session用户" + user);
+			user = userService.updateUserWeight(user.getUserId(), weight);
+			if (user != null) {// 插入成功
+				System.out.println("插入后用户" + user);
 				// 处理成功返回result=0
 				map.put("result", "0");
-				map.put("userId", userId);
-				map.put("userid", userid);
 				map.put("weight", weight);
-				map.put("gender", user.getSex());
-				System.out.println("map找到啦..." + map);
+				session.setAttribute("user", user);
+				System.out.println("map..." + map);
 			} else {
-				System.out.println("更新失败........");
+				map.put("result", "-3");
 			}
-		} else {
-			System.out.println("map未找到...");
-			map.put("result", "-1");
+
 		}
-		// 将转换得到的map转换为json并返回
-		ObjectMapper objectMapper = new ObjectMapper();
-		String resultJson = objectMapper.writeValueAsString(map);
-		// System.out.println("resultJson ..." + resultJson);
-		resultJson = resultJson.replace("\"", "\\\"");
-		resultJson = "\"" + resultJson + "\"";
-		// 此处返回JSON 字符串 string对象;JSP需要解析才能使用data.key
-		System.out.println("resultJson ..." + resultJson);
-		writer.print(resultJson);
-		writer.flush();
-		writer.close();
+		//根据result值，判断页面如何跳转
+		if ("0".equals(map.get("result"))) {// 登录成功，且不是第一次登陆
+			System.out.println("页面操作正确");
+			if ("man".equals(user.getSex())) {
+				System.out.println(map.get("gender"));
+				writer.println("<script language='javascript'>window.location.href='./views/bxy/manHeight.html'</script>");
+			} else {
+				writer.println("<script>window.location.href='./views/bxy/ladyHeight.html'</script>");
+			}
+		} else if ("-1".equals(map.get("result"))) {// 登陆失败，用户名不存在
+			writer.println("<script language='javascript'>alert('当前没有登录用户');window.location.href='./views/login.html'</script>");
+
+		} else if ("-2".equals(map.get("result"))) {// 前端错误
+			writer.println("<script language='javascript'>alert('前端错误');window.location.href='history.back(-1);'</script>");
+
+		} else if ("-3".equals(map.get("result"))) {// 插入失败
+			writer.println("<script language='javascript'>alert('插入失败');window.location.href='history.back(-1);'</script>");
+
+		}
 	}
 
 	/**
